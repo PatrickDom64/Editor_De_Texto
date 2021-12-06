@@ -268,22 +268,54 @@ namespace Editor_De_Texto
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            float linhas = 0;
+            float linhasPagina = 0;
+            
             float posY = 0;
+            
             float posX = 0;
 
             int cont = 0;
+            
             float margemEsquerda = e.MarginBounds.Left - 50;
+            
             float margemSuperior = e.MarginBounds.Top - 50;
-            if (margemEsquerda < 5) {
-                margemEsquerda = 20;
-            }
-            } if(margemSuperior < 5 ){
-                  margemSuperior = 20;
-                 }
-            string linha = null;
-            font fonte = this.richTextBox1.Font;
-            SolidBrush pincel = new SolidBrush(Color.Black);
-    }
 
+            if (margemEsquerda < 5) {
+            
+                margemEsquerda = 20;
+            
+            }
+         if(margemSuperior< 5 ){
+            
+                margemSuperior = 20;
+                
+            }
+            
+            string linha = null;
+            
+            Font fonte = this.richTextBox1.Font;
+            
+            SolidBrush pincel = new SolidBrush(Color.Black);
+            
+            linhasPagina= e.MarginBounds.Height / fonte.GetHeight(e.Graphics);
+           
+            linha = leitura.ReadLine();
+            
+                 while(cont < linhasPagina){
+                   posY = (margemSuperior + (cont * fonte.GetHeight(e.Graphics)));
+                   
+                   e.Graphics.DrawString(linha,fonte,pincel ,margemEsquerda,posY,new StringFormat());
+                      
+                   cont++;
+                  }
+            if (linha != null) { 
+            e.HasMorePages = true;
+            }
+            else { 
+            e.HasMorePages= false;
+            }
+            pincel.Dispose();
+        }
+    }
+    
 }
